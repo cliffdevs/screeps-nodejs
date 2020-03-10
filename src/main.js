@@ -24,6 +24,7 @@ const loop = () => {
 /**
  * Constructor function for the main module.
  * @param {Brain} brainInput the brain module for executing loop logic.
+ * @param {function} legacyLogicInput the loop for the legacy logic.
  */
 const build = (brainInput, legacyLogicInput) => {
   brain = brainInput;

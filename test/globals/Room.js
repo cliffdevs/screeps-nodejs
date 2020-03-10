@@ -1,6 +1,6 @@
 class Room {
   constructor(id) {
-    Room.prototype.name = id;
+    this.name = id;
   }
 }
 

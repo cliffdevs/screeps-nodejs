@@ -9,6 +9,7 @@ describe("room", () => {
     beforeEach(() => {
       global.Memory = _.clone(Memory);
       room = getFakeRoom("E01S01");
+      room.__proto__.execute.bind(room);
     });
 
     it("should have an execute method", () => {
@@ -19,10 +20,10 @@ describe("room", () => {
       room.execute();
     });
 
-    // it("should discover it's first directive", () => {
-    //   const expectedDirective = "BUILD_SPAWNER";
-    //   room.execute();
-    //   expect(global.Memory.rooms[room.name].directive).to.equal(expectedDirective);
-    // });
+    it("should discover it's first directive", () => {
+      const expectedDirective = "BUILD_SPAWNER";
+      room.execute();
+      expect(global.Memory.rooms[room.name].directive).to.equal(expectedDirective);
+    });
   });
 });

@@ -54,7 +54,7 @@ function cleanRequirements(contents, file) {
     }
     let reqStr = line.match(/(?:require\(")([^_a-zA-Z0-9]*)([^"]*)/);
     if (reqStr && reqStr != "") {
-      const reqstring = reqStr[reqStr.length - 1];
+      const reqstring = reqStr.slice(1).join('');
       let rePathed = getReqd.convertRequirePathToScreepsPath(file.path, reqstring, "src");
       console.log("correcting require path in " + file.path + " from " + reqstring + " to " + rePathed);
       line = line.replace(/require\("([\.\/]*)([^"]*)/, 'require("' + rePathed);
@@ -82,13 +82,13 @@ function deployTask(cb) {
   return gulp
     .src("dist/*.js")
     .pipe(
-      insert.transform(function(contents, file) {
+      insert.transform(function (contents, file) {
         uploader.bufferContents(contents, file);
         return contents;
       })
     )
     .pipe(
-      insert.transform(function(contents, file) {
+      insert.transform(function (contents, file) {
         console.log("finished uploading file: " + file.path);
         return contents;
       })

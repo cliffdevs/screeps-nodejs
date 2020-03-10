@@ -16,6 +16,10 @@ describe("room", () => {
       expect(room.execute).to.be.a("function");
     });
 
+    it("should execute without inputs or errors", () => {
+      room.execute();
+    });
+
     // it("should discover it's first directive", () => {
     //   const expectedDirective = "BUILD_SPAWNER";
     //   room.execute();

@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 
 /**
@@ -14,19 +15,35 @@ const path = require("path");
  * @param additionalRelativePathPrefix an additional path prefix to remove from the screeps name. Use this if you have a sub directory for your source root.
  */
 const convertRequirePathToScreepsPath = (absoluteFilePath, requirePath, additionalRelativePathPrefix) => {
-  if (requirePath && !requirePath.includes("/")) {
-    return requirePath;
-  }
-
   const baseDir = process.cwd();
   const fileParentDir = path.dirname(absoluteFilePath);
   const changeDir = path.relative(baseDir, fileParentDir);
   const absoluteDependencyPath = path.resolve(baseDir, changeDir, requirePath);
   const removeSubPath = additionalRelativePathPrefix ? `${baseDir}/${additionalRelativePathPrefix}/` : `${baseDir}/`;
   const contextPath = absoluteDependencyPath.replace(removeSubPath, "");
-  const screepsPath = `${contextPath.replace(/\//gi, "_")}`;
+  const screepsPath = `${contextPath.replace(/\//gi, "_")}${getSuffix(absoluteDependencyPath)}`;
+
   return screepsPath;
 };
+
+const getSuffix = (absoluteDependencyPath) => {
+  if (isFile(absoluteDependencyPath)
+    || isFile(absoluteDependencyPath + ".js")
+    || isFile(absoluteDependencyPath + ".json")) {
+    return ""
+  }
+
+  return "_index";
+}
+
+const isFile = (absoluteDependencyPath) => {
+  try {
+    const fileStats = fs.statSync(absoluteDependencyPath);
+    return fileStats.isFile();
+  } catch (err) {
+    return false;
+  }
+}
 
 module.exports = {
   convertRequirePathToScreepsPath

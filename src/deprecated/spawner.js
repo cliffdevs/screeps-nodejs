@@ -1,38 +1,43 @@
-const spawner = {
-  run: function() {
-    const harvesters = _.filter(Game.creeps, creep => creep.memory.role == "harvester");
-    console.log("Harvesters: " + harvesters.length);
-    const builders = _.filter(Game.creeps, creep => creep.memory.role == "builder");
-    console.log("Builders: " + builders.length);
-    const upgraders = _.filter(Game.creeps, creep => creep.memory.role == "upgrader");
-    console.log("Upgraders: " + upgraders.length);
+const spawnConfig = require("./parts/spawns");
 
-    if (harvesters.length < 2) {
-      const newName = "Harvester" + Game.time;
-      console.log("Spawning new harvester: " + newName);
-      Game.spawns["Spawn1"].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: "harvester" } });
-    }
-    if (builders.length < 2) {
-      const newName = "Builder" + Game.time;
-      console.log("Spawning new builder: " + newName);
-      Game.spawns["Spawn1"].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: "builder" } });
-    }
-    if (upgraders.length < 2) {
-      const newName = "Upgrader" + Game.time;
-      console.log("Spawning new upgrader: " + newName);
-      Game.spawns["Spawn1"].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: "upgrader" } });
-    }
+class Spawner {
+  constructor(partSelector, spawnerName) {
+    this.partSelector = partSelector;
+    this.spawnName = spawnerName;
+  }
 
-    if (Game.spawns["Spawn1"].spawning) {
-      const spawnCreep = Game.creeps[Game.spawns["Spawn1"].spawning.name];
-      Game.spawns["Spawn1"].room.visual.text(
+  run() {
+    const room = getRoom(this.spawnerName);
+
+    const spawn = (role) => {
+      const workers = _.filter(Game.creeps, creep => creep.memory.role === role);
+      console.log(role + ": " + workers.length);
+      const roleAmount = spawnConfig[room.controller.level[role]];
+      if (roleAmount && workers.length < roleAmount) {
+        const newName = role + Game.time;
+        console.log("Spawning new " + role + ": " + newName);
+        Game.spawns[this.spawnName].spawnCreep(this.partSelector.findParts(role), newName, { memory: { role } });
+      }
+    };
+
+    spawn("harvester");
+    spawn("builder");
+    spawn("upgrader");
+
+    if (Game.spawns[this.spawnName].spawning) {
+      const spawnCreep = Game.creeps[Game.spawns[this.spawnName].spawning.name];
+      room.visual.text(
         "🛠️" + spawnCreep.memory.role,
-        Game.spawns["Spawn1"].pos.x + 1,
-        Game.spawns["Spawn1"].pos.y,
+        Game.spawns[this.spawnName].pos.x + 1,
+        Game.spawns[this.spawnName].pos.y,
         { align: "left", opacity: 0.8 }
       );
     }
   }
 };
 
-module.exports = spawner;
+const getRoom = (spawnerName) => {
+  return Game.spawns[spawnerName].room;
+}
+
+module.exports = Spawner;

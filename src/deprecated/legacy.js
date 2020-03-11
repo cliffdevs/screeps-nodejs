@@ -3,7 +3,7 @@
 const roleHarvester = require("./role.harvester");
 const roleBuilder = require("./role.builder");
 const roleUpgrader = require("./role.upgrader");
-const spawner = require("./spawner");
+const spawner = require("../spawn/spawner");
 
 const oldLoop = () => {
   console.log(`Current game tick is ${Game.time}`);

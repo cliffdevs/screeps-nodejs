@@ -19,11 +19,5 @@ describe("room", () => {
     it("should execute without inputs or errors", () => {
       room.execute();
     });
-
-    it("should discover it's first directive", () => {
-      const expectedDirective = "BUILD_SPAWNER";
-      room.execute();
-      expect(global.Memory.rooms[room.name].directive).to.equal(expectedDirective);
-    });
   });
 });

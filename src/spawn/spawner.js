@@ -3,8 +3,14 @@ const partsConfig = require("./parts-config");
 const spawnSelector = require("./spawn-selector");
 const allRoles = require("../roles/role-names");
 
+const getRoomMemory = roomName => {
+  return Memory.rooms[roomName] = Memory.rooms[roomName] || {};
+}
+
 const getPendingSpawnCounters = roomName => {
-  return (Game.rooms[roomName].pendingSpawnCounters = Game.rooms[roomName].pendingSpawnCounters || {});
+  const roomMemory = getRoomMemory(roomName);
+  roomMemory.pendingSpawnCounters = roomMemory.pendingSpawnCounters || {};
+  return roomMemory.pendingSpawnCounters;
 };
 
 const getPendingCounterForRole = (roomName, role) => {
@@ -26,7 +32,8 @@ const decreasePendingCounter = (roomName, creepConfig) => {
 };
 
 const getSpawnQueue = roomName => {
-  return (Game.rooms[roomName].spawnQueue = Game.rooms[roomName].spawnQueue || []);
+  const roomMemory = getRoomMemory(roomName);
+  return (roomMemory.spawnQueue = roomMemory.spawnQueue || []);
 };
 
 const pushSpawnQueue = (roomName, creepConfig) => {
@@ -50,7 +57,7 @@ const queueSpawnsForRole = (role, roomName) => {
   console.log(`${role}'s: ` + workers.length);
 
   const roomLevel = Game.rooms[roomName].controller.level;
-  if (workers.length + getPendingCounterForRole(role) < spawnConfig[roomLevel][role]) {
+  if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
     const newName = role + Game.time;
     const creepConfig = {
       parts: partsConfig[roomLevel][role],
@@ -69,7 +76,7 @@ const attemptToSpawn = roomName => {
       targetSpawner.spawnCreep();
 
       const spawnCreep = targetSpawner.spawning.name;
-      targetSpawner.room.visual.text("🛠️" + spawnCreep.memory.role, targetSpawner.pos.x + 1, targetSpawner.pos.y, {
+      targetSpawner.room.visual.text("🛠️" + spawnCreep, targetSpawner.pos.x + 1, targetSpawner.pos.y, {
         align: "left",
         opacity: 0.8
       });
@@ -81,7 +88,7 @@ const queueAllSpawns = roomName => {
   allRoles.forEach(role => queueSpawnsForRole(role, roomName));
 };
 
-const run = function(roomName) {
+const run = function (roomName) {
   queueAllSpawns(roomName);
   attemptToSpawn(roomName);
 };

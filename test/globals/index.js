@@ -1,3 +1,3 @@
-global.Creep = require("./Creep");
-global.Game = require("./Game");
+const constants = require("./constants");
+Object.assign(global, constants);
 global.Room = require("./Room");

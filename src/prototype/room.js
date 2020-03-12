@@ -1,15 +1,8 @@
 "use strict";
 
-const directives = require("../directives/room-directives");
-
 Room.prototype.execute = () => {
-  const directive = discoverDirective(this.prototype.name);
   return;
 };
-
-const discoverDirective = (roomName) => {
-  return Memory.rooms[roomName].directive || directives.BUILD_SPAWNER;
-}
 
 // room bootstrapping priority
 // 0. plan base layout

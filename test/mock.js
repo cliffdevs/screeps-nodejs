@@ -19,17 +19,18 @@ const Game = {
 
 const Memory = {
   creeps: {},
-  rooms: {}
+  rooms: {},
+  spawns: {}
 };
 
 const getFakeCreep = () => {
-  return new Creep();
+  return {};
 };
 
 const getFakeRoom = (roomName, mergeObject) => {
-  const room = new Room(roomName);
-  return room;
-  // return Object.assign(room, mergeObject);
+  const room = new Room();
+  room.name = roomName;
+  return Object.assign(room, mergeObject);
 };
 
 module.exports = {

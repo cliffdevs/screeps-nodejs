@@ -1,7 +1,5 @@
 class Room {
-  constructor(id) {
-    this.name = id;
-  }
+  constructor() {}
 }
 
 module.exports = Room;

@@ -1,29 +1,30 @@
 "use strict";
+const spawnLogic = require("../spawn/spawner");
 
 /**
  * Proxy property to get a collection of all creeps in a room.
  */
-Object.defineProperty(Room.prototype, 'creeps', {
-  get: function () {
-    return _.filter(Game.creeps, creep => creep.room === this.name && creep.my);
+Object.defineProperty(Room.prototype, "creeps", {
+  get: function() {
+    return _.filter(Game.creeps, creep => creep.room.name === this.name && creep.my);
   },
   enumerable: false,
   configurable: false
 });
 
-Object.defineProperty(Room.prototype, 'spawner', {
-  get: function () {
-    return this._spawner;
+Object.defineProperty(Room.prototype, "spawner", {
+  get: function() {
+    return (this._spawner = this._spawner || spawnLogic.run);
   },
-  set: function (spawnerFunction) {
+  set: function(spawnerFunction) {
     this._spawner = spawnerFunction;
   },
   enumerable: false,
   configurable: true
 });
 
-Room.prototype.execute = function () {
-  Room.prototype.creeps.map(creep => creep.execute());
+Room.prototype.execute = function() {
+  this.creeps.map(creep => creep.execute());
   this.spawner(this.name);
 };
 

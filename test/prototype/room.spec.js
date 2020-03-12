@@ -27,17 +27,16 @@ describe("room", () => {
       ownedCreep.name = "uncle";
       ownedCreep.owner = "bob";
       ownedCreep.execute = sinon.stub();
+      ownedCreep.room = room;
 
       const enemyCreep = new Creep();
       enemyCreep.my = false;
       enemyCreep.name = "idiot";
       enemyCreep.owner = "bernie";
       enemyCreep.execute = sinon.stub();
+      enemyCreep.room = room;
 
-      global.Game.creeps = [
-        ownedCreep,
-        enemyCreep
-      ];
+      global.Game.creeps = [ownedCreep, enemyCreep];
 
       room.execute();
       expect(ownedCreep.execute.calledOnce).is.true;

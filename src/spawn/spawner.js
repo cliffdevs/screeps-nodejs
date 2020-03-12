@@ -4,8 +4,9 @@ const spawnSelector = require("./spawn-selector");
 const allRoles = require("../roles/role-names");
 
 const getRoomMemory = roomName => {
-  return Memory.rooms[roomName] = Memory.rooms[roomName] || {};
-}
+  Memory.rooms = Memory.rooms || {};
+  return (Memory.rooms[roomName] = Memory.rooms[roomName] || {});
+};
 
 const getPendingSpawnCounters = roomName => {
   const roomMemory = getRoomMemory(roomName);
@@ -52,11 +53,18 @@ const popSpawnQueue = roomName => {
   return undefined;
 };
 
+const peekSpawnQueue = roomName => {
+  return getSpawnQueue(roomName)[0];
+}
+
 const queueSpawnsForRole = (role, roomName) => {
   const workers = _.filter(Game.creeps, creep => creep.memory.role === role);
   console.log(`${role}'s: ` + workers.length);
 
   const roomLevel = Game.rooms[roomName].controller.level;
+  console.log(`detected room level and role ${roomLevel}:${role}`);
+  console.log(JSON.stringify(spawnConfig[roomLevel]));
+  console.log(JSON.stringify(spawnConfig[roomLevel][role]));
   if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
     const newName = role + Game.time;
     const creepConfig = {
@@ -70,16 +78,22 @@ const queueSpawnsForRole = (role, roomName) => {
 
 const attemptToSpawn = roomName => {
   const targetSpawner = spawnSelector.discoverSpawner(roomName);
+  console.log('found targetSpawner ' + targetSpawner.name);
   if (targetSpawner && !targetSpawner.spawning) {
-    const creepConfig = popSpawnQueue(roomName);
+    const creepConfig = peekSpawnQueue(roomName);
     if (creepConfig) {
-      targetSpawner.spawnCreep();
-
-      const spawnCreep = targetSpawner.spawning.name;
-      targetSpawner.room.visual.text("🛠️" + spawnCreep, targetSpawner.pos.x + 1, targetSpawner.pos.y, {
-        align: "left",
-        opacity: 0.8
-      });
+      console.log('preparing to spawn ' + creepConfig.name);
+      const spawnResult = targetSpawner.spawnCreep(creepConfig.parts, creepConfig.name, creepConfig.spawnMemory);
+      if (spawnResult === OK) {
+        popSpawnQueue(roomName);
+        const spawnCreep = targetSpawner.spawning.name;
+        targetSpawner.room.visual.text("🛠️" + spawnCreep, targetSpawner.pos.x + 1, targetSpawner.pos.y, {
+          align: "left",
+          opacity: 0.8
+        });
+      } else {
+        console.log('couldnt spawn err code ' + spawnResult)
+      }
     }
   }
 };

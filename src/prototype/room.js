@@ -11,9 +11,20 @@ Object.defineProperty(Room.prototype, 'creeps', {
   configurable: false
 });
 
-Room.prototype.execute = () => {
+Object.defineProperty(Room.prototype, 'spawner', {
+  get: function () {
+    return this._spawner;
+  },
+  set: function (spawnerFunction) {
+    this._spawner = spawnerFunction;
+  },
+  enumerable: false,
+  configurable: true
+});
+
+Room.prototype.execute = function () {
   Room.prototype.creeps.map(creep => creep.execute());
-  return;
+  this.spawner(this.name);
 };
 
 // room bootstrapping priority

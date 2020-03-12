@@ -10,6 +10,7 @@ describe("room", () => {
       global.Game = _.clone(Game);
       global.Memory = _.clone(Memory);
       room = getFakeRoom("E01S01");
+      room.spawner = sinon.stub();
     });
 
     it("should have an execute method", () => {
@@ -41,6 +42,12 @@ describe("room", () => {
       room.execute();
       expect(ownedCreep.execute.calledOnce).is.true;
       expect(enemyCreep.execute.called).is.false;
-    })
+    });
+
+    it("should call the spawner each tick so that the room can maintain its roster", () => {
+      room.execute();
+      expect(room.spawner.calledOnce).is.true;
+      expect(room.spawner.calledWith(room.name)).is.true;
+    });
   });
 });

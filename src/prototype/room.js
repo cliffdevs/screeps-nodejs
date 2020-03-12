@@ -1,6 +1,18 @@
 "use strict";
 
+/**
+ * Proxy property to get a collection of all creeps in a room.
+ */
+Object.defineProperty(Room.prototype, 'creeps', {
+  get: function () {
+    return _.filter(Game.creeps, creep => creep.room === this.name && creep.my);
+  },
+  enumerable: false,
+  configurable: false
+});
+
 Room.prototype.execute = () => {
+  Room.prototype.creeps.map(creep => creep.execute());
   return;
 };
 

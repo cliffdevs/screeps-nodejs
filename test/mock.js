@@ -27,10 +27,10 @@ const getFakeCreep = () => {
   return {};
 };
 
-const getFakeRoom = (roomName, mergeObject) => {
+const getFakeRoom = (roomName, toMerge) => {
   const room = new Room();
   room.name = roomName;
-  return Object.assign(room, mergeObject);
+  return Object.assign(room, toMerge);
 };
 
 module.exports = {

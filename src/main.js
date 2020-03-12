@@ -10,7 +10,6 @@ const MemoryCleaner = require("./utils/MemoryCleaner");
 
 const memoryCleaner = new MemoryCleaner();
 let brain = new Brain(memoryCleaner);
-let legacyLogic = require("./deprecated/legacy");
 
 /**
  * This is the logic loop function.
@@ -18,17 +17,14 @@ let legacyLogic = require("./deprecated/legacy");
 const loop = () => {
   console.log(`Current game tick is ${Game.time}`);
   brain.loop();
-  legacyLogic();
 };
 
 /**
  * Constructor function for the main module.
  * @param {Brain} brainInput the brain module for executing loop logic.
- * @param {function} legacyLogicInput the loop for the legacy logic.
  */
-const build = (brainInput, legacyLogicInput) => {
+const build = (brainInput) => {
   brain = brainInput;
-  legacyLogic = legacyLogicInput;
   return { loop };
 };
 

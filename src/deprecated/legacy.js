@@ -5,7 +5,7 @@ const roleBuilder = require("./role.builder");
 const roleUpgrader = require("./role.upgrader");
 const spawner = require("../spawn/spawner");
 
-const oldLoop = () => {
+const oldLoop = (roomName) => {
   console.log(`Current game tick is ${Game.time}`);
   for (var name in Game.creeps) {
     var creep = Game.creeps[name];
@@ -19,7 +19,7 @@ const oldLoop = () => {
       roleBuilder.run(creep);
     }
   }
-  spawner.run();
+  spawner.run(roomName);
 };
 
 module.exports = oldLoop;

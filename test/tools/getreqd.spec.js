@@ -32,5 +32,12 @@ describe("getreqd", () => {
       const result = getreqd.convertRequirePathToScreepsPath(sourceFile, requirePath, baseDir);
       expect(result).to.be.equal("prototype_index");
     });
+
+    it("should correctly interpret relative nested paths that have an index but are not the index", () => {
+      const sourceFile = process.cwd() + "/src/role/remoteminer";
+      const requirePath = "./harvester";
+      const result = getreqd.convertRequirePathToScreepsPath(sourceFile, requirePath, baseDir);
+      expect(result).to.be.equal("role_harvester");
+    })
   });
 });

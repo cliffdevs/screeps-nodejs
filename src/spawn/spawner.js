@@ -52,6 +52,15 @@ const popSpawnQueue = roomName => {
   return undefined;
 };
 
+const peekSpawnQueue = roomName => {
+  const spawnQueue = getSpawnQueue(roomName);
+  if (spawnQueue.length > 0) {
+    return spawnQueue[0];
+  }
+
+  return null;
+}
+
 const queueSpawnsForRole = (role, roomName) => {
   const workers = _.filter(Game.creeps, creep => creep.memory.role === role);
   console.log(`${role}'s: ` + workers.length);
@@ -60,9 +69,9 @@ const queueSpawnsForRole = (role, roomName) => {
   if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
     const newName = role + Game.time;
     const creepConfig = {
-      parts: partsConfig[roomLevel][role],
+      body: partsConfig[roomLevel][role],
       name: newName,
-      spawnMemory: { memory: { role } }
+      options: { memory: { role } }
     };
     pushSpawnQueue(roomName, creepConfig);
   }
@@ -71,15 +80,17 @@ const queueSpawnsForRole = (role, roomName) => {
 const attemptToSpawn = roomName => {
   const targetSpawner = spawnSelector.discoverSpawner(roomName);
   if (targetSpawner && !targetSpawner.spawning) {
-    const creepConfig = popSpawnQueue(roomName);
+    const creepConfig = peekSpawnQueue(roomName);
     if (creepConfig) {
-      targetSpawner.spawnCreep();
-
-      const spawnCreep = targetSpawner.spawning.name;
-      targetSpawner.room.visual.text("🛠️" + spawnCreep, targetSpawner.pos.x + 1, targetSpawner.pos.y, {
-        align: "left",
-        opacity: 0.8
-      });
+      const result = targetSpawner.spawnCreep(creepConfig.body, creepConfig.name, creepConfig.options);
+      if (result === OK) {
+        popSpawnQueue(roomName);
+        const spawnCreep = targetSpawner.spawning.name;
+        targetSpawner.room.visual.text("🛠️" + spawnCreep, targetSpawner.pos.x + 1, targetSpawner.pos.y, {
+          align: "left",
+          opacity: 0.8
+        });
+      }
     }
   }
 };

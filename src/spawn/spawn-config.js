@@ -5,9 +5,8 @@
 module.exports = {
   1: {
     harvester: 2,
-    carry: 2,
     builder: 1,
-    upgrader: 1
+    upgrader: 2
   },
   2: {
     harvester: 2,

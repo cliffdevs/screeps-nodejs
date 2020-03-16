@@ -48,7 +48,7 @@ const deliverEnergyToTarget = (creep, target) => {
 };
 
 const dumpExcessEnergy = creep => {
-  if (creep.room.name === creep.memory.spawn) {
+  if (creep.room.name === Game.spawns[creep.memory.spawn].room.name) {
     creep.say("excess");
     console.log(creep.name + " has excess energy");
     // build things first
@@ -76,7 +76,12 @@ const dumpExcessEnergy = creep => {
       creep.memory.delivering = false;
     }
   } else {
-    creep.moveTo(Game.spawns[creep.memory.spawn]);
+    const spawnName =
+      creep.memory.spawn ||
+      creep.room.find(FIND_STRUCTURES, {
+        filter: structure => structure.structureType === STRUCTURE_SPAWN
+      })[0].name;
+    creep.moveTo(Game.spawns[spawnName]);
   }
 };
 
@@ -94,7 +99,9 @@ const roleHarvester = {
       }
 
       const targets = findEnergyStorageLocations(creep);
+      console.log("energy storage targets: " + targets.length);
       if (targets.length > 0) {
+        creep.say("deliver");
         deliverEnergyToTarget(creep, targets[0]);
 
         // // if empty
@@ -102,6 +109,7 @@ const roleHarvester = {
           creep.memory.delivering = false;
         }
       } else {
+        creep.say("dump");
         // const site = buildActions.findNearestConstructionSite(creep);
         // if (site) {
         //     creep.say('build')

@@ -1,7 +1,8 @@
 const spawnConfig = require("./spawn-config");
 const partsConfig = require("./parts-config");
 const spawnSelector = require("./spawn-selector");
-const allRoles = require("../roles/role-names");
+const allRoles = require("../role/role-names");
+const spawnOpts = require("./spawn-opts");
 
 const getRoomMemory = roomName => {
   return (Memory.rooms[roomName] = Memory.rooms[roomName] || {});
@@ -20,14 +21,14 @@ const getPendingCounterForRole = (roomName, role) => {
 
 const increasePendingCounter = (roomName, creepConfig) => {
   const pendingSpawnCounters = getPendingSpawnCounters(roomName);
-  const role = creepConfig.spawnMemory.memory.role;
+  const role = creepConfig.options.memory.role;
   pendingSpawnCounters[role] = pendingSpawnCounters[role] || 0;
   pendingSpawnCounters[role]++;
 };
 
 const decreasePendingCounter = (roomName, creepConfig) => {
   const pendingSpawnCounters = getPendingSpawnCounters(roomName);
-  const role = creepConfig.spawnMemory.memory.role;
+  const role = creepConfig.options.memory.role;
   pendingSpawnCounters[role] = pendingSpawnCounters[role] ? pendingSpawnCounters - 1 : 0;
 };
 
@@ -69,10 +70,11 @@ const queueSpawnsForRole = (role, roomName) => {
   if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
     const newName = role + Game.time;
     const creepConfig = {
-      body: partsConfig[roomLevel][role],
+      body: partsConfig.getParts(role, roomName),
       name: newName,
-      options: { memory: { role } }
+      options: spawnOpts.getSpawnOptions(roomName, role)
     };
+    console.log("Pushing creep to spawnqueue: " + JSON.stringify(creepConfig));
     pushSpawnQueue(roomName, creepConfig);
   }
 };

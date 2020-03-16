@@ -1,7 +1,7 @@
 const partsProviders = require("./parts");
 
-const getParts = role => {
-  return partsProviders[role].getParts();
+const getParts = (role, roomName) => {
+  return partsProviders[role].getParts(roomName);
 };
 
 module.exports = {

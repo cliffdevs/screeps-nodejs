@@ -4,7 +4,14 @@ const getRoomMemory = roomName => {
 
 const getSpawners = roomName => {
   const roomMemory = getRoomMemory(roomName);
-  return (roomMemory.spawners = roomMemory.spawners || []);
+  roomMemory.spawners = roomMemory.spawners || [];
+  if (roomMemory.spawners.length === 0) {
+    roomMemory.spawners = Game.rooms[roomName]
+      .find(FIND_MY_STRUCTURES, { filter: stucture => stucture.structureType === STRUCTURE_SPAWN })
+      .map(obj => obj.name);
+  }
+
+  return roomMemory.spawners;
 };
 
 const getSpawnerIndex = roomName => {

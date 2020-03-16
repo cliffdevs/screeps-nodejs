@@ -4,22 +4,99 @@
  */
 module.exports = {
   1: {
-    harvester: 2,
-    carry: 2,
+    attacker: 0,
     builder: 1,
-    upgrader: 1
+    claimer: 0,
+    courier: 0,
+    harvester: 2,
+    maxharvester: 0,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 2
   },
   2: {
+    attacker: 0,
+    builder: 1,
+    claimer: 0,
+    courier: 0,
     harvester: 2,
-    carry: 2,
-    upgrader: 1,
-    builder: 1
+    maxharvester: 0,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 2
   },
   3: {
-    miner: 2,
-    carry: 2,
-    upgrader: 2,
-    defender: 1,
-    builder: 2
+    attacker: 0,
+    builder: 2,
+    claimer: 0,
+    courier: 4,
+    harvester: 0,
+    maxharvester: 2,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 2
+  },
+  4: {
+    attacker: 0,
+    builder: 2,
+    claimer: 0,
+    courier: 4,
+    harvester: 0,
+    maxharvester: 2,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 2
+  },
+  5: {
+    attacker: 0,
+    builder: 2,
+    claimer: 0,
+    courier: 4,
+    harvester: 0,
+    maxharvester: 2,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 4
+  },
+  6: {
+    attacker: 0,
+    builder: 2,
+    claimer: 0,
+    courier: 4,
+    harvester: 0,
+    maxharvester: 2,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 4
+  },
+  7: {
+    attacker: 0,
+    builder: 2,
+    claimer: 0,
+    courier: 4,
+    harvester: 0,
+    maxharvester: 2,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 4
+  },
+  8: {
+    attacker: 0,
+    builder: 2,
+    claimer: 0,
+    courier: 4,
+    harvester: 0,
+    maxharvester: 2,
+    recycler: 0,
+    refueler: 0,
+    remoteminer: 0,
+    upgrader: 1
   }
 };

@@ -1,10 +1,10 @@
 const getRoomMemory = roomName => {
-  return Memory.rooms[roomName] = Memory.rooms[roomName] || {};
-}
+  return (Memory.rooms[roomName] = Memory.rooms[roomName] || {});
+};
 
 const getSpawners = roomName => {
   const roomMemory = getRoomMemory(roomName);
-  return roomMemory.spawners = roomMemory.spawners || [];
+  return (roomMemory.spawners = roomMemory.spawners || []);
 };
 
 const getSpawnerIndex = roomName => {

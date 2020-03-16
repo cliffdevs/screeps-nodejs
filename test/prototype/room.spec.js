@@ -34,10 +34,7 @@ describe("room", () => {
       enemyCreep.owner = "bernie";
       enemyCreep.execute = sinon.stub();
 
-      global.Game.creeps = [
-        ownedCreep,
-        enemyCreep
-      ];
+      global.Game.creeps = [ownedCreep, enemyCreep];
 
       room.execute();
       expect(ownedCreep.execute.calledOnce).is.true;

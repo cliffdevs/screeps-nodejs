@@ -1,7 +1,9 @@
+const partsProviders = require("./parts");
+
+const getParts = role => {
+  return partsProviders[role].getParts();
+};
+
 module.exports = {
-  1: {
-    harvester: [WORK, CARRY, MOVE],
-    builder: [WORK, CARRY, MOVE],
-    upgrader: [WORK, CARRY, MOVE]
-  }
+  getParts
 };

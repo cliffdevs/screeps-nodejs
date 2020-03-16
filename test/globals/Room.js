@@ -2,7 +2,7 @@ class Room {
   constructor() {}
 }
 
-Object.defineProperty(Room.prototype, 'name', {
+Object.defineProperty(Room.prototype, "name", {
   get: function() {
     return this._name;
   },
@@ -11,6 +11,6 @@ Object.defineProperty(Room.prototype, 'name', {
   },
   enumerable: false,
   configurable: false
-})
+});
 
 module.exports = Room;

@@ -23,7 +23,7 @@ const loop = () => {
  * Constructor function for the main module.
  * @param {Brain} brainInput the brain module for executing loop logic.
  */
-const build = (brainInput) => {
+const build = brainInput => {
   brain = brainInput;
   return { loop };
 };

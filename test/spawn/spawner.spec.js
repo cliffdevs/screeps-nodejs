@@ -11,7 +11,7 @@ describe("spawner", () => {
     controller: {
       level: 1
     },
-    memory: Memory.rooms[roomName] = Memory.rooms[roomName] || {},
+    memory: (Memory.rooms[roomName] = Memory.rooms[roomName] || {}),
     visual: {
       text: sinon.stub()
     }

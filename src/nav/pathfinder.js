@@ -15,6 +15,10 @@ const roomCallback = roomName => {
 
   let costs = new PathFinder.CostMatrix();
 
+  room.find(FIND_MY_CONSTRUCTION_SITES).forEach(site => {
+    costs.set(site.pos.x, site.pos.y, 255);
+  });
+
   room.find(FIND_STRUCTURES).forEach(struct => {
     if (struct.structureType === STRUCTURE_ROAD) {
       // favor roads over all types
@@ -30,11 +34,11 @@ const roomCallback = roomName => {
       // can't walk through non-walkable buildings
       costs.set(struct.pos.x, struct.pos.y, 255);
     }
+  });
 
-    // avoid creeps
-    room.find(FIND_CREEPS).forEach(creep => {
-      costs.set(creep.pos.x, creep.pos.y, 255);
-    });
+  // avoid creeps
+  room.find(FIND_CREEPS).forEach(creep => {
+    costs.set(creep.pos.x, creep.pos.y, 255);
   });
 
   return costs;

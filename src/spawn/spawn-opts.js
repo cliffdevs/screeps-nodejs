@@ -11,9 +11,9 @@ const getMinerEnergySource = roomName => {
   const sources = (roomMemory.sources = roomMemory.sources || Game.rooms[roomName].find(FIND_SOURCES));
   if (sources && sources.length > 0) {
     roomMemory.previousSourceIndex = roomMemory.previousSourceIndex || 0;
-    let targetSourceIndex = 0;
-    if (roomMemory.previousSourceIndex + 1 < roomMemory.sources.length) {
-      targetSourceIndex++;
+    let targetSourceIndex = room.previousSourceIndex + 1;
+    if (targetSourceIndex >= roomMemory.sources.length) {
+      targetSourceIndex = 0;
     }
 
     roomMemory.previousSourceIndex = targetSourceIndex;

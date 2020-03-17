@@ -62,10 +62,10 @@ const peekSpawnQueue = roomName => {
   return null;
 };
 
-const unshiftSpawnQueue = (roomName, creepConfig) => {
-  const spawnQueue = getSpawnQueue(roomName);
-  spawnQueue.unshift(creepConfig);
-};
+// const unshiftSpawnQueue = (roomName, creepConfig) => {
+//   const spawnQueue = getSpawnQueue(roomName);
+//   spawnQueue.unshift(creepConfig);
+// };
 
 const queueSpawnsForRole = (role, roomName) => {
   const workers = _.filter(Game.creeps, creep => creep.memory.role === role);
@@ -87,7 +87,7 @@ const queueSpawnsForRole = (role, roomName) => {
 const attemptToSpawn = roomName => {
   const targetSpawner = spawnSelector.discoverSpawner(roomName);
   if (targetSpawner && !targetSpawner.spawning) {
-    const creepConfig = popSpawnQueue(roomName);
+    const creepConfig = peekSpawnQueue(roomName);
     if (creepConfig) {
       const result = targetSpawner.spawnCreep(creepConfig.body, creepConfig.name, creepConfig.options);
       if (result === OK) {
@@ -97,8 +97,6 @@ const attemptToSpawn = roomName => {
           align: "left",
           opacity: 0.8
         });
-      } else {
-        unshiftSpawnQueue(creepConfig);
       }
     }
   }

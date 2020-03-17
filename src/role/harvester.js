@@ -3,7 +3,8 @@
 
 const creepNavigator = require("../nav/pathfinder");
 const mineRefueler = require("../action/refuel-from-energy-source");
-const buildActions = require("../action/find-nearest-construction");
+const deliverEnergyToTarget = require("../action/deliver-energy-to-target");
+const dumpExcessEnergy = require("../action/dump-excess-energy");
 
 const findEnergyStorageLocations = creep => {
   const storageLocations = creep.room
@@ -32,59 +33,6 @@ const findEnergyStorageLocations = creep => {
   return storageLocations;
 };
 
-const deliverEnergyToTarget = (creep, target) => {
-  creep.say("🔄 delivering energy");
-
-  const name = target.name || target.id;
-  console.log("Transferring energy to " + target.structureType + ":" + name);
-
-  const transferResult = creep.transfer(target, RESOURCE_ENERGY);
-
-  if (transferResult == ERR_NOT_IN_RANGE) {
-    creepNavigator.moveCreepTo(creep, target);
-  } else if (transferResult !== OK) {
-    console.log("Unable to transfer because error " + transferResult);
-  }
-};
-
-const dumpExcessEnergy = creep => {
-  if (creep.room.name === Game.spawns[creep.memory.spawn].room.name) {
-    creep.say("excess");
-    console.log(creep.name + " has excess energy");
-    // build things first
-    const site = buildActions.findNearestConstructionSite(creep);
-    if (site) {
-      // creep.say("build");
-      buildActions.constructTarget(creep, site);
-    }
-    // repair things second
-    else {
-      // const thingToRepair = buildActions.findNearestThingToRepair(creep);
-      // if (thingToRepair) {
-      //   // creep.say("repair");
-      //   buildActions.repairThing(creep, thingToRepair);
-      // }
-      const towerNeedingFuel = locateNearestTowerNeedingFuel(creep);
-      if (towerNeedingFuel) {
-        deliverEnergyToTarget(creep, towerNeedingFuel);
-      } else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-        creepNavigator.moveCreepTo(creep, creep.room.controller.pos);
-      }
-    }
-    // // if empty
-    if (creep.store.getFreeCapacity() === creep.store.getCapacity()) {
-      creep.memory.delivering = false;
-    }
-  } else {
-    const spawnName =
-      creep.memory.spawn ||
-      creep.room.find(FIND_STRUCTURES, {
-        filter: structure => structure.structureType === STRUCTURE_SPAWN
-      })[0].name;
-    creep.moveTo(Game.spawns[spawnName]);
-  }
-};
-
 const roleHarvester = {
   /** @param {Creep} creep **/
   run: function(creep) {
@@ -109,20 +57,6 @@ const roleHarvester = {
           creep.memory.delivering = false;
         }
       } else {
-        creep.say("dump");
-        // const site = buildActions.findNearestConstructionSite(creep);
-        // if (site) {
-        //     creep.say('build')
-        //     buildActions.constructTarget(creep, site);
-        // } else {
-        //     const thingToRepair = buildActions.findNearestThingToRepair(creep);
-        //     creep.say('repair')
-        //     buildActions.repairThing(creep, thingToRepair);
-        // }
-        // // // if empty
-        // if (creep.store.getFreeCapacity() === creep.store.getCapacity()) {
-        //     creep.memory.delivering = false;
-        // }
         dumpExcessEnergy(creep);
       }
     }

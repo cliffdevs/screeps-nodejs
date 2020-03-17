@@ -16,7 +16,9 @@ const roomCallback = roomName => {
   let costs = new PathFinder.CostMatrix();
 
   room.find(FIND_MY_CONSTRUCTION_SITES).forEach(site => {
-    costs.set(site.pos.x, site.pos.y, 255);
+    // if (site.progress > )
+    // costs.set(site.pos.x, site.pos.y, 255);
+    costs.set(site.pos.x, site.pos.y, 10);
   });
 
   room.find(FIND_STRUCTURES).forEach(struct => {
@@ -25,6 +27,7 @@ const roomCallback = roomName => {
       costs.set(struct.pos.x, struct.pos.y, 1);
     } else if (
       struct.structureType === STRUCTURE_CONTAINER ||
+      struct.structureType === STRUCTURE_WALL ||
       struct.structureType === STRUCTURE_EXTENSION ||
       struct.structureType === STRUCTURE_SPAWN ||
       (struct.structureType === STRUCTURE_RAMPART && !struct.my)

@@ -1,12 +1,4 @@
-const isMinerRole = (roomName, role) => {
-  return (
-    role === "harvester" ||
-    "maxharvester" ||
-    (Game.rooms[roomName].controller.level >= 3 && (role === "builder" || role === "upgrader"))
-  );
-};
-
-const getMinerEnergySource = roomName => {
+const getMinerEnergySource = (roomName, role) => {
   const roomMemory = (Memory.rooms[roomName] = Memory.rooms[roomName] || {});
   const sources = (roomMemory.sources = roomMemory.sources || Game.rooms[roomName].find(FIND_SOURCES));
   if (sources && sources.length > 0) {
@@ -16,7 +8,12 @@ const getMinerEnergySource = roomName => {
       targetSourceIndex = 0;
     }
 
-    roomMemory.previousSourceIndex = targetSourceIndex;
+    if (role === "maxharvester") {
+      // only toggle sources for max harvesters, the others should
+      // balance well enough by sourcing from containers
+      roomMemory.previousSourceIndex = targetSourceIndex;
+    }
+
     return sources[targetSourceIndex];
   }
 };
@@ -33,7 +30,7 @@ const getSpawnOptions = (roomName, role) => {
     }
   };
 
-  options.energySource = getMinerEnergySource(roomName);
+  options.energySource = getMinerEnergySource(roomName, role);
 
   return options;
 };

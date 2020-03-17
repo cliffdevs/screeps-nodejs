@@ -113,6 +113,12 @@ const run = function(roomName) {
   attemptToSpawn(roomName);
 };
 
+const prioritize = function(roomName, creepConfig) {
+  getSpawnQueue(roomName);
+  unshiftSpawnQueue(creepConfig);
+};
+
 module.exports = {
+  prioritize,
   run
 };

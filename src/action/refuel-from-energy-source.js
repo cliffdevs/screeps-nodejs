@@ -12,7 +12,7 @@ const getEnergySource = creep => {
   if (creep.memory.energySource) {
     return creep.room.find(FIND_SOURCES, {
       filter: source => {
-        return source.id === creep.memory.energySource.id;
+        return source.id === creep.memory.energySource;
       }
     })[0];
   }

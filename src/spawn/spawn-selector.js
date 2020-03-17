@@ -37,5 +37,6 @@ const incrementSpawner = roomName => {
 
 module.exports = {
   discoverSpawner,
+  getSpawners,
   incrementSpawner
 };

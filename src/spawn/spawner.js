@@ -62,16 +62,12 @@ const peekSpawnQueue = roomName => {
   return null;
 };
 
-// const unshiftSpawnQueue = (roomName, creepConfig) => {
-//   const spawnQueue = getSpawnQueue(roomName);
-//   spawnQueue.unshift(creepConfig);
-// };
-
 const queueSpawnsForRole = (role, roomName) => {
   const workers = _.filter(Game.creeps, creep => creep.memory.role === role);
   console.log(`${role}'s: ` + workers.length);
 
   const roomLevel = Game.rooms[roomName].controller.level;
+
   if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
     const newName = role + Game.time;
     const creepConfig = {

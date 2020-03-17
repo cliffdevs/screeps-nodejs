@@ -12,11 +12,12 @@ const getEnergySource = creep => {
   if (creep.memory.energySource) {
     return creep.room.find(FIND_SOURCES, {
       filter: source => {
-        return source.id === creep.memory.energySource;
+        return source.id === creep.memory.energySource.id;
       }
     })[0];
   }
 
+  console.log("ERROR, creep couldn't find it's assigned energy source and will default to nearest.");
   const source = findNearestEnergySource(creep);
   creep.memory.energySource = source.id;
   return source;

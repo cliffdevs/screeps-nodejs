@@ -1,5 +1,6 @@
 const buildActions = require("./find-nearest-construction");
 const deliverEnergyToTarget = require("./deliver-energy-to-target");
+const locateNearestTowerNeedingFuel = require("./locate-nearest-tower-needing-fuel");
 const creepNavigator = require("../nav/pathfinder");
 
 const dumpExcessEnergy = creep => {

@@ -2,7 +2,9 @@ const creepNavigator = require("../nav/pathfinder");
 
 const run = creep => {
   const sources = creep.room.find(FIND_STRUCTURES, {
-    filter: object => object.structureType === STRUCTURE_CONTAINER && object.store[RESOURCE_ENERGY] > 0
+    filter: object =>
+      (object.structureType === STRUCTURE_CONTAINER || object.structureType === STRUCTURE_STORAGE) &&
+      object.store[RESOURCE_ENERGY] > 0
   });
 
   if (sources.length > 0) {

@@ -51,15 +51,27 @@ const findAndPickupDroppedEnergy = creep => {
  * @param {Creep} creep
  */
 const carryEnergyToStorage = creep => {
-  const targets = locationUtils.findEnergyStorageLocations(creep);
-  if (targets.length > 0) {
-    creep.say("deliver");
-    deliverEnergyToTarget(creep, targets[0]);
+  // const targets = locationUtils.findEnergyStorageLocations(creep);
+  // if (targets.length > 0) {
+  //   creep.say("deliver");
+  //   deliverEnergyToTarget(creep, targets[0]);
 
+  //   // // if empty
+  //   if (creep.store.getFreeCapacity() === creep.store.getCapacity()) {
+  //     creep.memory.delivering = false;
+  //   }
+  // }
+
+  const target = locationUtils.findClosestEnergyStorage(creep);
+  if (target) {
+    creep.say("deliver");
+    deliverEnergyToTarget(creep, target);
     // // if empty
     if (creep.store.getFreeCapacity() === creep.store.getCapacity()) {
       creep.memory.delivering = false;
     }
+  } else {
+    creep.say("holding");
   }
 };
 

@@ -1,5 +1,6 @@
 "use strict";
 const spawner = require("../spawn/spawner");
+const tower = require("../towers");
 
 /**
  * Proxy property to get a collection of all creeps in a room.
@@ -18,6 +19,7 @@ Room.prototype.execute = function() {
     creep.execute();
   });
   spawner.run(this.name);
+  tower.run(this);
 };
 
 // room bootstrapping priority

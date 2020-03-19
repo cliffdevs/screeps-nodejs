@@ -1,5 +1,7 @@
 "use strict";
 
+const commandExecutor = require("./command/command");
+
 /**
  * All AI logic starts here.
  */
@@ -31,12 +33,17 @@ class Brain {
       return true;
     };
 
-    if (isCpuBelowLimit()) {
-      this.memoryCleaner.purge();
-      Memory.time = Game.time;
-      for (const roomName in Game.rooms) {
-        Game.rooms[roomName].execute();
-      }
+    if (!isCpuBelowLimit()) {
+      return; // exit, come back next tick
+    }
+
+    Memory.time = Game.time;
+    this.memoryCleaner.purge();
+
+    commandExecutor.run();
+
+    for (const roomName in Game.rooms) {
+      Game.rooms[roomName].execute();
     }
   }
 }

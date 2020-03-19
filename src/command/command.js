@@ -3,6 +3,8 @@ const actions = {
   attack: require("./attack")
 };
 
+// Expect flags named like this: command.attack.from.E41N41.SquadNameHere.attacker.attacker
+// the name must start with command, the next section is the action: attack/seige/claim/defend
 const convertFlagToCommand = ([flagName, flag]) => {
   const commandComponents = flag.name.split(".");
   const commandDetails = {
@@ -30,9 +32,12 @@ const discoverCommands = () => {
 
 const run = () => {
   const commands = discoverCommands();
-  commands.map(command => {
-    actions[command.action].run(command);
-  });
+  commands
+    .map(command => {
+      actions[command.action].run(command);
+      return command;
+    })
+    .map(command => (Game.flags[command.to].flagAcknowledged = true));
 };
 
 module.exports = {

@@ -15,7 +15,6 @@ Object.defineProperty(Room.prototype, "creeps", {
 
 Room.prototype.execute = function() {
   this.creeps.map(creep => {
-    console.log("executing " + creep.name);
     creep.execute();
   });
   spawner.run(this.name);

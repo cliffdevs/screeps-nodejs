@@ -118,7 +118,7 @@ const run = function(roomName) {
 };
 
 const prioritize = function(roomName, creepConfig) {
-  // unshiftSpawnQueue(roomName, creepConfig);
+  unshiftSpawnQueue(roomName, creepConfig);
 };
 
 module.exports = {

@@ -35,7 +35,7 @@ module.exports = {
     harvester: 2,
     maxharvester: 2,
     recycler: 0,
-    refueler: 0,
+    refueler: 1,
     remoteminer: 0,
     upgrader: 2
   },
@@ -47,7 +47,7 @@ module.exports = {
     harvester: 2,
     maxharvester: 2,
     recycler: 0,
-    refueler: 0,
+    refueler: 1,
     remoteminer: 0,
     upgrader: 2
   },
@@ -59,7 +59,7 @@ module.exports = {
     harvester: 2,
     maxharvester: 2,
     recycler: 0,
-    refueler: 0,
+    refueler: 1,
     remoteminer: 0,
     upgrader: 4
   },
@@ -71,7 +71,7 @@ module.exports = {
     harvester: 2,
     maxharvester: 2,
     recycler: 0,
-    refueler: 0,
+    refueler: 1,
     remoteminer: 0,
     upgrader: 4
   },
@@ -83,7 +83,7 @@ module.exports = {
     harvester: 2,
     maxharvester: 2,
     recycler: 0,
-    refueler: 0,
+    refueler: 1,
     remoteminer: 0,
     upgrader: 4
   },
@@ -95,7 +95,7 @@ module.exports = {
     harvester: 2,
     maxharvester: 2,
     recycler: 0,
-    refueler: 0,
+    refueler: 1,
     remoteminer: 0,
     upgrader: 1
   }

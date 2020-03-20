@@ -1,6 +1,8 @@
 // find command flags and interpret the outcome
 const actions = {
-  attack: require("./attack")
+  attack: require("./attack"),
+  claim: require("./claim"),
+  recover: require("./recover")
 };
 
 // Expect flags named like this: command.attack.from.E41N41.SquadNameHere.attacker.attacker
@@ -37,7 +39,7 @@ const run = () => {
       actions[command.action].run(command);
       return command;
     })
-    .map(command => (Game.flags[command.to].flagAcknowledged = true));
+    .map(command => (Memory.flags[command.to].flagAcknowledged = true));
 };
 
 module.exports = {

@@ -71,17 +71,22 @@ const queueSpawnsForRole = (role, roomName) => {
   const workers = _.filter(Game.creeps, creep => creep.memory.role === role);
   console.log(`${role}'s: ` + workers.length);
 
-  const roomLevel = Game.rooms[roomName].controller.level;
-
-  if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
-    const newName = role + Game.time;
-    const creepConfig = {
-      body: partsConfig.getParts(role, roomName),
-      name: newName,
-      options: spawnOpts.getSpawnOptions(roomName, role)
-    };
-    console.log("Pushing creep to spawnqueue: " + JSON.stringify(creepConfig));
-    pushSpawnQueue(roomName, creepConfig);
+  if (Game.rooms[roomName] && Game.rooms[roomName].controller && Game.rooms[roomName].controller.level) {
+    const roomLevel = Game.rooms[roomName].controller.level;
+    console.log(`workers.length ${workers.length}`);
+    console.log(`roomName ${roomName} role ${role}`);
+    console.log(`pending ${getPendingCounterForRole(roomName, role)} `);
+    console.log(`config ${spawnConfig[roomLevel][role]}`);
+    if (workers.length + getPendingCounterForRole(roomName, role) < spawnConfig[roomLevel][role]) {
+      const newName = role + Game.time;
+      const creepConfig = {
+        body: partsConfig.getParts(role, roomName),
+        name: newName,
+        options: spawnOpts.getSpawnOptions(roomName, role)
+      };
+      console.log("Pushing creep to spawnqueue: " + JSON.stringify(creepConfig));
+      pushSpawnQueue(roomName, creepConfig);
+    }
   }
 };
 
@@ -113,8 +118,7 @@ const run = function(roomName) {
 };
 
 const prioritize = function(roomName, creepConfig) {
-  getSpawnQueue(roomName);
-  unshiftSpawnQueue(creepConfig);
+  // unshiftSpawnQueue(roomName, creepConfig);
 };
 
 module.exports = {

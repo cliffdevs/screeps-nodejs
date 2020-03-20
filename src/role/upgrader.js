@@ -29,6 +29,7 @@ const roleUpgrader = {
     if (creep.memory.upgrading) {
       const towerNeedingFuel = locateNearestTowerNeedingFuel(creep);
       if (towerNeedingFuel) {
+        creep.say("tower found");
         deliverEnergyToTarget(creep, towerNeedingFuel);
       } else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
         creepMover.moveCreepTo(creep, creep.room.controller.pos);

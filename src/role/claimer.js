@@ -9,7 +9,7 @@
  * @param {Creep} creep
  */
 const run = creep => {
-  const flag = Game.flags["Claim"];
+  const flag = Game.flags[creep.memory.target];
   if (flag) {
     if (creep) {
       Memory.rooms = Memory.rooms ? Memory.rooms : {};

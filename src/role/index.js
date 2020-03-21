@@ -7,6 +7,7 @@ module.exports = {
   maxharvester: require("./maxharvester"),
   recycler: require("./recycler"),
   refueler: require("./refueler"),
+  remoteharvester: require("./remoteharvester"),
   remoteminer: require("./remoteminer"),
   upgrader: require("./upgrader")
 };

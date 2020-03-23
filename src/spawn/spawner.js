@@ -5,6 +5,7 @@ const allRoles = require("../role/role-names");
 const spawnOpts = require("./spawn-opts");
 
 const getRoomMemory = roomName => {
+  Memory.rooms = Memory.rooms || {};
   return (Memory.rooms[roomName] = Memory.rooms[roomName] || {});
 };
 

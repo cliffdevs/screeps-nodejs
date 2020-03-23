@@ -1,6 +1,7 @@
 const roleFunctions = require("../role");
 
 const setSpawnInMemory = creepName => {
+  Memory.creeps[creepName] = Memory.creeps[creepName] || {};
   Memory.creeps[creepName].spawn =
     Memory.creeps[creepName].spawn ||
     Game.creeps[creepName].room.find(FIND_STRUCTURES, {
@@ -11,6 +12,7 @@ const setSpawnInMemory = creepName => {
 Creep.prototype.execute = function() {
   setSpawnInMemory(this.name);
   const role = Memory.creeps[this.name].role;
+  console.log("creep " + this.name + " role " + this.memory.role);
   const roleFunction = roleFunctions[role];
   roleFunction.run(this);
 };

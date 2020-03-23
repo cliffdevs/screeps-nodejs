@@ -6,7 +6,7 @@ const run = ({ action, from, to, squad, squadRoles }) => {
   squadRoles
     .map(role => {
       return {
-        body: partsConfig.getParts(role, Game.flags[to].room.name),
+        body: [WORK, CARRY, CARRY, MOVE, MOVE],
         name: `${from}${squad}${role}${Game.time}`,
         options: {
           memory: {

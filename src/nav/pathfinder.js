@@ -30,6 +30,7 @@ const roomCallback = roomName => {
       struct.structureType === STRUCTURE_WALL ||
       struct.structureType === STRUCTURE_EXTENSION ||
       struct.structureType === STRUCTURE_SPAWN ||
+      struct.structureType === STRUCTURE_TOWER ||
       (struct.structureType === STRUCTURE_RAMPART && !struct.my)
     ) {
       costs.set(struct.pos.x, struct.pos.y, 255);

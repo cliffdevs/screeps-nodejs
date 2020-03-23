@@ -3,18 +3,20 @@ const spawner = require("../spawn/spawner");
 const tower = require("../towers");
 
 const prioritizeHarvester = roomName => {
-  spawner.prioritize(roomName, {
-    body: [WORK, CARRY, CARRY, MOVE, MOVE],
-    name: `${roomName}bootstrapper.remoteharvester${Game.time}`,
-    options: {
-      memory: {
-        role: "remoteharvester",
-        action: "startup",
-        home: roomName,
-        target: roomName
+  if (Game.rooms[roomName].controller && Game.rooms[roomName].controller.my) {
+    spawner.prioritize(roomName, {
+      body: [WORK, CARRY, CARRY, MOVE, MOVE],
+      name: `bs${Game.time}`,
+      options: {
+        memory: {
+          role: "remoteharvester",
+          action: "startup",
+          home: roomName,
+          target: roomName
+        }
       }
-    }
-  });
+    });
+  }
 };
 
 /**
@@ -35,7 +37,10 @@ Room.prototype.execute = function() {
   spawner.run(this.name);
   tower.run(this);
 
-  if (this.creeps.filter(creep => creep.memory.role === "harvester").length === 0) {
+  if (
+    this.creeps.filter(creep => creep.memory.role === "harvester" || creep.memory.role === "remoteharvester").length ===
+    0
+  ) {
     console.log(`${this.name} is out of harvesters! Priorizing failsafe recovery.`);
     prioritizeHarvester(this.name);
   }

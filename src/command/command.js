@@ -2,7 +2,8 @@
 const actions = {
   attack: require("./attack"),
   claim: require("./claim"),
-  recover: require("./recover")
+  recover: require("./recover"),
+  startup: require("./startup")
 };
 
 // Expect flags named like this: command.attack.from.E41N41.SquadNameHere.attacker.attacker

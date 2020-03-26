@@ -1,7 +1,7 @@
 const creepNavigator = require("../nav/pathfinder");
 
 const findNearestEnergySource = creep => {
-  return creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+  return creep.pos.findClosestByPath(FIND_SOURCES);
 };
 
 const findFirstEnergySource = creep => {

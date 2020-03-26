@@ -95,8 +95,10 @@ const attemptToSpawn = roomName => {
   const targetSpawner = spawnSelector.discoverSpawner(roomName);
   if (targetSpawner && !targetSpawner.spawning) {
     const creepConfig = peekSpawnQueue(roomName);
+    console.log(roomName + " will attempt to spawn creepConfig " + JSON.stringify(creepConfig));
     if (creepConfig) {
       const result = targetSpawner.spawnCreep(creepConfig.body, creepConfig.name, creepConfig.options);
+      console.log(roomName + " spawn result is " + result);
       if (result === OK) {
         popSpawnQueue(roomName);
         const spawnCreep = targetSpawner.spawning.name;
@@ -123,6 +125,7 @@ const prioritize = function(roomName, creepConfig) {
 };
 
 module.exports = {
+  getSpawnQueue,
   prioritize,
   run
 };

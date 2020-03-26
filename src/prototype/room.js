@@ -2,11 +2,25 @@
 const spawner = require("../spawn/spawner");
 const tower = require("../towers");
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 const prioritizeHarvester = roomName => {
-  if (Game.rooms[roomName].controller && Game.rooms[roomName].controller.my) {
+  if (
+    Game.rooms[roomName].controller &&
+    Game.rooms[roomName].controller.my &&
+    Game.rooms[roomName].find(FIND_MY_SPAWNS).length > 0 &&
+    Game.rooms[roomName].creeps.filter(
+      creep => creep.memory.role === "harvester" || creep.memory.role === "remoteharvester"
+    ).length === 0 &&
+    spawner.getSpawnQueue(roomName) &&
+    spawner.getSpawnQueue(roomName).length > 0 &&
+    spawner.getSpawnQueue(roomName)[0].options.memory.role !== "remoteharvester"
+  ) {
     spawner.prioritize(roomName, {
       body: [WORK, CARRY, CARRY, MOVE, MOVE],
-      name: `bs${Game.time}`,
+      name: `bs${getRandomInt(10000)}`,
       options: {
         memory: {
           role: "remoteharvester",
@@ -16,6 +30,7 @@ const prioritizeHarvester = roomName => {
         }
       }
     });
+    console.log(roomName + " prioritized a bootstrapper");
   }
 };
 

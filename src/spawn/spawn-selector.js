@@ -16,7 +16,7 @@ const getSpawners = roomName => {
 
 const getSpawnerIndex = roomName => {
   const roomMemory = getRoomMemory(roomName);
-  return roomMemory.spawnerIndex || 0;
+  return (roomMemory.spawnerIndex = roomMemory.spawnerIndex || 0);
 };
 
 const discoverSpawner = roomName => {
@@ -24,6 +24,7 @@ const discoverSpawner = roomName => {
 
   if (spawners.length > 0) {
     const targetSpawnerIndex = getSpawnerIndex(roomName);
+    console.log("room: " + roomName + " spawner: " + spawners[targetSpawnerIndex]);
     return Game.spawns[spawners[targetSpawnerIndex]];
   }
 };

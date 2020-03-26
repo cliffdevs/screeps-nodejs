@@ -11,7 +11,7 @@ const setSpawnInMemory = creepName => {
 
 Creep.prototype.execute = function() {
   setSpawnInMemory(this.name);
-  const role = Memory.creeps[this.name].role;
+  const role = Memory.creeps[this.name].role || "builder";
   console.log("creep " + this.name + " role " + this.memory.role);
   const roleFunction = roleFunctions[role];
   roleFunction.run(this);

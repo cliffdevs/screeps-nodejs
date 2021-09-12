@@ -6,12 +6,14 @@
   "author": "Clifford Workman",
   "license": "MIT",
   "scripts": {
+    "deploy": "npx gulp",
     "test": "nyc --reporter=html --report=text mocha",
     "coverage": "nyc report --reporter=html",
     "format": "yarn fix:prettier",
     "fix:prettier": "prettier --write \"**/*.*\"",
     "lint": "yarn lint:prettier",
-    "lint:prettier": "prettier --check \"**/*.*\""
+    "lint:prettier": "prettier --check \"**/*.*\"",
+    "gview:test": "xdg-open coverage/index.html"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
